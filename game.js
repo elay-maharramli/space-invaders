@@ -1,6 +1,23 @@
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
 
+document.addEventListener("keydown", keyPush);
+
+function keyPush()
+{
+    if (event.keyCode === 37)
+    {
+        ctx.clearRect(0,0,800,700);
+        game.ship.x -= game.ship.dx;
+    }
+
+    if (event.keyCode === 39)
+    {
+        ctx.clearRect(0,0,800,700);
+        game.ship.x += game.ship.dx;
+    }
+}
+
 class Ship
 {
     constructor(x, y, dx, context) {
@@ -32,7 +49,7 @@ class Game
 {
     constructor(context) {
         this.ctx = context;
-        this.ship = new Ship(100, 450, 5, this.ctx);
+        this.ship = new Ship(100, 550, 10, this.ctx);
         this.loop();
     }
 
