@@ -35,6 +35,16 @@ function keyPush()
     {
         game.ship.x += game.ship.dx;
     }
+
+    if (event.keyCode === 32)
+    {
+        game.bullets.push(new Bullet(
+            game.ship.x + game.ship.w / 2 - 2,
+            game.ship.y,
+            10,
+            ctx
+        ));
+    }
 }
 
 class Ship
@@ -93,14 +103,39 @@ class Enemy
     }
 }
 
+class Bullet
+{
+    constructor(x, y, dy, context) {
+        this.x = x;
+        this.y = y;
+        this.dy = dy;
+        this.ctx = context;
+        this.w = 3;
+        this.h = 12;
+    }
+
+    update()
+    {
+        this.y -= this.dy;
+    }
+
+    draw()
+    {
+        this.ctx.fillStyle = "rgb(255,255,0)";
+        this.ctx.fillRect(this.x, this.y, this.w, this.h);
+    }
+}
+
 class Game
 {
     constructor(context) {
         this.ctx = context;
-        this.ship = new Ship(100, 550, 12, this.ctx);
+        this.ship = new Ship(Helper.getRandomInt(100,700), 550, 12, this.ctx);
+        this.bullet = new Bullet(2000, this.ship.y, 10, this.ctx);
         this.enemy = new Enemy(2000, 0, Helper.getRandomInt(1,2),Helper.getRandomInt(2,3),Helper.getRandomInt(0,1),this.ctx);
         this.enemies = [];
         this.enemyTimer = 0;
+        this.bullets = [];
         this.enemySpawnInterval = 50;
         this.loop();
     }
@@ -116,7 +151,7 @@ class Game
     {
         this.ship.update();
         this.enemy.update();
-
+        this.bullet.update();
         if (this.enemyTimer % this.enemySpawnInterval === 0)
         {
             this.enemies.push(new Enemy(
@@ -153,6 +188,10 @@ class Game
 
             enemy.update();
         });
+
+        this.bullets.forEach((bullet, index) => {
+            bullet.update();
+        });
     }
 
     draw()
@@ -160,11 +199,20 @@ class Game
         ctx.clearRect(0,0,800,700);
         this.ship.draw();
         this.enemy.draw();
+        this.bullet.draw();
+
         for (let i in this.enemies)
         {
             if (this.enemies.hasOwnProperty(i))
             {
                 this.enemies[i].draw();
+            }
+        }
+        for (let b in this.bullets)
+        {
+            if (this.bullets.hasOwnProperty(b))
+            {
+                this.bullets[b].draw();
             }
         }
     }
