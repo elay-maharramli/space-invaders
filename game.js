@@ -185,11 +185,30 @@ class Game
             {
                 Helper.removeIndex(this.enemies, index);
             }
+            for (let i in this.bullets)
+            {
+                const enemyCenterX = enemy.x + enemy.w;
+                const enemyCenterY = enemy.y + enemy.h;
+                if (
+                    enemyCenterX >= this.bullets[i].x &&
+                    enemy.x <= this.bullets[i].x + this.bullets[i].w &&
+                    enemyCenterY >= this.bullets[i].y &&
+                    enemyCenterY <= this.bullets[i].y + this.bullets[i].h
+                ){
+                    Helper.removeIndex(this.enemies, index);
+                    this.bullets[i].y = 800;
+                    this.bullets[i].x = 900;
+                }
+            }
 
             enemy.update();
         });
 
         this.bullets.forEach((bullet, index) => {
+            if (bullet.y < 0)
+            {
+                Helper.removeIndex(this.bullets, index);
+            }
             bullet.update();
         });
     }
