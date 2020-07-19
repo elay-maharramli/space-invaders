@@ -3,6 +3,7 @@ ctx = canvas.getContext("2d");
 
 document.addEventListener("keydown", keyPush);
 
+
 class Helper
 {
     static getRandomInt(min, max)
@@ -53,7 +54,7 @@ class Ship
     constructor(x, y, dx, context) {
         this.x = x;
         this.y = y;
-        this.w = 82;
+        this.w = 88;
         this.h = 96;
         this.dx = dx;
         this.ctx = context;
@@ -211,7 +212,7 @@ class Game
             if (
                 enemyCenterX >= this.ship.x &&
                 enemy.x <= this.ship.x + this.ship.w &&
-                enemyCenterY >= this.ship.y &&
+                enemyCenterY >= this.ship.y + 10 &&
                 enemyCenterY <= this.ship.y + this.ship.h
             ){
                 Helper.removeIndex(this.enemies, index);
