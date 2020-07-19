@@ -1,8 +1,17 @@
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
 
-document.addEventListener("keydown", keyPush);
 document.addEventListener("mousemove", move);
+document.addEventListener("click", function () {
+    game.bulletSound.play();
+    game.bullets.push(new Bullet(
+        game.ship.x + game.ship.w / 2 - 2,
+        game.ship.y,
+        10,
+        ctx
+    ));
+})
+
 
 function move(event) {
     game.ship.x = event.offsetX - game.ship.w / 2;
@@ -28,20 +37,6 @@ class Helper
         array[index] = array[array.length - 1];
         array[array.length - 1] = undefined;
         array.length = array.length - 1;
-    }
-}
-
-function keyPush()
-{
-    if (event.keyCode === 32)
-    {
-        game.bulletSound.play();
-        game.bullets.push(new Bullet(
-            game.ship.x + game.ship.w / 2 - 2,
-            game.ship.y,
-            10,
-            ctx
-        ));
     }
 }
 
@@ -218,6 +213,7 @@ class Game
 
             enemy.update();
         });
+
 
         this.bullets.forEach((bullet, index) => {
             if (bullet.y < 0)
