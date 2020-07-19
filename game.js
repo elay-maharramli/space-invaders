@@ -138,6 +138,8 @@ class Game
         this.enemyTimer = 0;
         this.bulletSound = new Audio();
         this.bulletSound.src = 'sound/shot.mp3';
+        this.exploseSound = new Audio();
+        this.exploseSound.src = 'sound/explosion.wav';
         this.bullets = [];
         this.enemySpawnInterval = 40;
         this.loop();
@@ -213,6 +215,7 @@ class Game
                 enemyCenterY <= this.ship.y + this.ship.h
             ){
                 Helper.removeIndex(this.enemies, index);
+                this.exploseSound.play();
                 throw new Error("GAME OVER!");
             }
 
