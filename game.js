@@ -38,6 +38,7 @@ function keyPush()
 
     if (event.keyCode === 32)
     {
+        game.bulletSound.play();
         game.bullets.push(new Bullet(
             game.ship.x + game.ship.w / 2 - 2,
             game.ship.y,
@@ -135,6 +136,8 @@ class Game
         this.enemy = new Enemy(2000, 0, Helper.getRandomInt(1,2),Helper.getRandomInt(2,3),Helper.getRandomInt(0,1),this.ctx);
         this.enemies = [];
         this.enemyTimer = 0;
+        this.bulletSound = new Audio();
+        this.bulletSound.src = 'sound/shot.mp3';
         this.bullets = [];
         this.enemySpawnInterval = 50;
         this.loop();
