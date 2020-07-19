@@ -2,6 +2,12 @@ canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
 
 document.addEventListener("keydown", keyPush);
+document.addEventListener("mousemove", move);
+
+function move(event) {
+    game.ship.x = event.offsetX - game.ship.w / 2;
+    game.ship.y = event.offsetY - game.ship.h / 2;
+}
 
 
 class Helper
@@ -27,16 +33,6 @@ class Helper
 
 function keyPush()
 {
-    if (event.keyCode === 37)
-    {
-        game.ship.x -= game.ship.dx;
-    }
-
-    if (event.keyCode === 39)
-    {
-        game.ship.x += game.ship.dx;
-    }
-
     if (event.keyCode === 32)
     {
         game.bulletSound.play();
