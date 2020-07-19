@@ -3,7 +3,8 @@ ctx = canvas.getContext("2d");
 
 document.addEventListener("mousemove", move);
 document.addEventListener("click", function () {
-    game.bulletSound.play();
+    Helper.playSound(game.bulletSound)
+    game.bulletSound.play().then(() => {}).catch(() => {})
     game.bullets.push(new Bullet(
         game.ship.x + game.ship.w / 2 - 2,
         game.ship.y,
@@ -37,6 +38,13 @@ class Helper
         array[index] = array[array.length - 1];
         array[array.length - 1] = undefined;
         array.length = array.length - 1;
+    }
+
+    static playSound(sound)
+    {
+        sound.pause();
+        sound.currentTime = 0;
+        sound.play().then(() => {}).catch(() => {})
     }
 }
 
@@ -133,7 +141,7 @@ class Game
         this.exploseSound = new Audio();
         this.exploseSound.src = 'sound/explosion.wav';
         this.bullets = [];
-        this.enemySpawnInterval = 40;
+        this.enemySpawnInterval = 30;
         this.loop();
     }
 
@@ -206,8 +214,8 @@ class Game
                 enemyCenterY >= this.ship.y + 10 &&
                 enemyCenterY <= this.ship.y + this.ship.h
             ){
+                Helper.playSound(this.exploseSound);
                 Helper.removeIndex(this.enemies, index);
-                this.exploseSound.play();
                 throw new Error("GAME OVER!");
             }
 
