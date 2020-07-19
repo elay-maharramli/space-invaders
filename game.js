@@ -139,7 +139,7 @@ class Game
         this.bulletSound = new Audio();
         this.bulletSound.src = 'sound/shot.mp3';
         this.bullets = [];
-        this.enemySpawnInterval = 50;
+        this.enemySpawnInterval = 40;
         this.loop();
     }
 
@@ -202,6 +202,18 @@ class Game
                     this.bullets[i].y = 800;
                     this.bullets[i].x = 900;
                 }
+            }
+
+            const enemyCenterX = enemy.x + enemy.w;
+            const enemyCenterY = enemy.y + enemy.h;
+            if (
+                enemyCenterX >= this.ship.x &&
+                enemy.x <= this.ship.x + this.ship.w &&
+                enemyCenterY >= this.ship.y &&
+                enemyCenterY <= this.ship.y + this.ship.h
+            ){
+                Helper.removeIndex(this.enemies, index);
+                throw new Error("GAME OVER!");
             }
 
             enemy.update();
